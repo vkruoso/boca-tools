@@ -1,0 +1,295 @@
+#!/usr/bin/php
+<?php
+// make sure we are always in the script directory
+chdir(dirname(__FILE__));
+
+// include boca related files
+require_once '../boca/globals.php';
+require_once '../boca/db.php';
+
+function usage($program){
+  print "usage: ".$program." <contest-name>\n";
+  exit(1);
+}
+
+// generic error function
+function error($msg,$code=1){
+  print "error: ".$msg."\n";
+  exit($code);
+}
+
+// mkdir function, if already created its ok
+function mymkdir($path){
+  if(is_dir($path) and is_writable($path)) return true;
+  if(!mkdir($path)){
+    error('failed to create directory: '.$path);
+    exit();
+  }
+  return true;
+}
+
+// reads configuration files
+function readconf($path){
+  if(!file_exists($path) or !is_readable($path))
+    error('failed to find configuration file: '.$path);
+  if(!($conf=@parse_ini_file($path,true)))
+    error('failed to parse configuration file: '.$path);
+  return $conf;
+}
+
+// creates a random password
+function createpass($length) {
+  $chars = "234567890abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  $pass = "";
+  for($i=0;$i<$length;$i++) $pass .= $chars{mt_rand(0,strlen($chars))};
+  return $pass;
+}
+
+// check if want to do something
+function go($to){
+  print $to." (yes or no) ";
+  $answer = fgets(STDIN);
+  return (trim($answer)=="yes");
+}
+
+// converts a bytes size to a human readable format
+function humanfilesize($bytes,$decimals=0){
+  $sz = 'BKMGTP';
+  $factor = floor((strlen($bytes) - 1) / 3);
+  return sprintf("%.{$decimals}f",$bytes/pow(1024,$factor)).@$sz[$factor];
+}
+
+
+// set timezone
+date_default_timezone_set('America/Sao_Paulo');
+
+// the languages and directories in problems template
+$languages = array('c','cpp','java','pas');
+$basedirs = array(
+  'limits','compile','run','compare','input',
+  'output','tests','description'
+);
+
+// template files we should copy
+$templatefiles = array();
+foreach($languages as $language){
+  $templatefiles[] = 'compile/'.$language;
+  $templatefiles[] = 'run/'.$language;
+  $templatefiles[] = 'compare/'.$language;
+}
+
+
+
+// get the contest
+if($argc<=1) usage($argv[0]);
+$contest = trim($argv[1]);
+
+// get the configuration
+$confpath = $contest.'/'.$contest.'.conf';
+$conf = readconf($confpath);
+print_r($conf);
+
+// create necessary folders
+mymkdir($contest.'/editorial');
+mymkdir($contest.'/prova');
+mymkdir($contest.'/prova/problems');
+
+// check if all selected problems exists and load their conf
+$problems = array();
+if(isset($conf['problems']))
+  foreach($conf['problems'] as $letter=>$problem){
+    // setup some important paths
+    $problempath = '../problems/'.$problem;
+    $confpath = $problempath.'/'.$problem.'.conf';
+
+    // get problem configuration
+    $tmpconf = readconf($confpath);
+
+    // create problem link
+    if(!file_exists($contest.'/prova/problems/'.$problem))
+      symlink('../../../'.$problempath,$contest.'/prova/problems/'.$problem);
+
+    $tmpconf['info']['basename'] = $problem;
+    $problems[$letter] = $tmpconf['info'];
+    $problems[$letter]['id'] = count($problems);
+    $id2letter[$problems[$letter]['id']] = $letter;
+    $basename2letter[$problems[$letter]['basename']] = $letter;
+  }
+if(count($problems)==0)
+  error('no problem defined');
+
+// set problem colors
+$i=1;
+if(isset($conf['colors']))
+  foreach($conf['colors'] as $colorname=>$colorcode){
+    if(!isset($id2letter[$i])) break;
+    $letter = $id2letter[$i++];
+    $problems[$letter]['colorname'] = $colorname;
+    $problems[$letter]['colorcode'] = $colorcode;
+  }
+
+// override problem timelimit if specified
+if(isset($conf['timelimit']))
+  foreach($conf['timelimit'] as $problem=>$timelimit){
+    if(!isset($basename2letter[$problem])) continue;
+    $letter = $basename2letter[$problem];
+    $problems[$letter]['timelimit'] = $timelimit;
+  }
+
+// check if want to create latex stuff
+buildlatex:;
+if(!go('Create latex files?')) goto buildproblems;
+
+// copy latex template files
+$textemplatefiles = array('prova.tex','capa.png');
+foreach($textemplatefiles as $file)
+  copy('templates/prova/'.$file,$contest.'/prova/'.$file);
+
+$ltex = implode('|',$languages);
+$ptex = '';
+foreach($problems as $letter=>$problem){
+  $ptex .= '\section*{'.$letter.": ".$problem['fullname']."}\n";
+  $ptex .= "\\vspace{-0.52cm}\n";
+  $ptex .= "\\noindent \\begin{verbatim}File: ".$problem['basename'].".[".$ltex."]\\end{verbatim}\n";
+  $ptex .= "\\input{problems/".$problem['basename']."/".$problem['basename'].".tex}\n";
+  $ptex .= "\n\n";
+}
+
+// edit the latex
+$tex = file_get_contents($contest.'/prova/prova.tex');
+$tex = preg_replace('/TITLE/',$conf['contest']['name'],$tex);
+$tex = preg_replace('/DATE/', $conf['contest']['date'],$tex);
+$tex = preg_replace('/STAFF/',$conf['contest']['staff'],$tex);
+$tex = preg_replace('/BOCAURL/',$conf['contest']['boca-url'],$tex);
+$tex = preg_replace('/PROBLEMS/',$ptex,$tex);
+file_put_contents($contest.'/prova/prova.tex',$tex);
+
+// check if want to create problems templates and upload them
+buildproblems:;
+if(!go('Create problems templates and upload them?')) goto insertusers;
+
+// paths
+$templatepath = './templates/problem';
+$pdfpath = $contest.'/prova/prova.pdf';
+
+// check if pdf exists and put it in the first problem
+checkpdf:;
+if(file_exists($pdfpath) and is_readable($pdfpath))
+  $problems[$id2letter[1]]['descfile'] = 'prova.pdf';
+else
+  if(go('Could not find pdf file. Try again?')) goto checkpdf;
+
+print_r($problems);
+
+// create problems zipfile
+foreach($problems as $letter=>$problem){
+  // create in-memory zip
+  $zip = new ZipArchive();
+  $zippath = tempnam(sys_get_temp_dir(),'create-contest-zip-');
+  if(!$zip->open($zippath,ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE))
+    error('failed to create zipfile');
+
+  // insert all directories and template files
+  foreach($basedirs as $basedir) $zip->addEmptyDir($basedir);
+  foreach($templatefiles as $file) $zip->addFile($templatepath.'/'.$file,$file);
+
+  // problems input/output
+  $zip->addFile('../problems/'.$problem['basename'].'/'.$problem['basename'].'.in','input/file1');
+  $zip->addFile('../problems/'.$problem['basename'].'/'.$problem['basename'].'.out','output/file1');
+
+  // limits file
+  $limits = "echo ".$problem['timelimit']. "\necho 1\necho 512\necho ".
+    floor(10+filesize('../problems/'.$problem['basename'].'/'.$problem['basename'].'.out')/512)."\nexit 0\n";
+  foreach($languages as $language) $zip->addFromString('limits/'.$language,$limits);
+
+  // description file
+  $keys = array('basename','fullname','descfile');
+  $str = ''; foreach($keys as $key) if(isset($problem[$key])) $str .= $key."=".$problem[$key]."\n";
+  $zip->addFromString('description/problem.info',$str);
+
+  // the pdf
+  if(isset($problem['descfile'])) $zip->addFile($pdfpath,'description/'.$problem['descfile']);
+
+  // write the zip to a file
+  if(!$zip->close()) error('failed to create zip file (close)');
+  if(!file_exists($zippath)) error('failed to create zip file');
+
+  // insert this problem in the database
+  $params = array(
+    'number' => $problem['id'],
+    'name' => $letter,
+    'basename' => $problem['basename'],
+    'fullname' => $problem['fullname'],
+    'inputfilename' => $letter.'.zip',
+    'inputfilepath' => $zippath,
+    'fake' => 'f',
+    'colorname' => $problem['colorname'],
+    'color' => $problem['colorcode']
+  );
+  print_r($params);
+  print "Uploading ".humanfilesize(filesize($zippath))."... ";
+  DBNewProblem($conf['contest']['boca-contest'],$params);
+  print "done\n";
+
+  // remove the zip file
+  unlink($zippath);
+}
+
+// check if want to create latex stuff
+insertusers:;
+if(!go('Insert users?')) goto last;
+
+// configure users to create
+$groups = array(
+  'judge' => array(
+    'startid' => 5000,
+    'pass' => 'juiz',
+    'username' => 'judge',
+    'userfull' => 'Juiz ',
+    'count' => 5
+  ),
+  'staff' => array(
+    'startid' => 4000,
+    'pass' => 'staff123',
+    'username' => 'staff',
+    'userfull' => 'Staff ',
+    'count' => 5
+  ),
+  'score' => array(
+    'startid' => 6000,
+    'pass' => 'score',
+    'username' => 'score',
+    'userfull' => 'Score ',
+    'count' => 1
+  )
+);
+
+// create the users
+print "Creating users...\n";
+foreach($groups as $group=>$info){
+  for($i=1;$i<=$info['count'];$i++){
+    $pass = $info['randompass'] ? createpass(10) : $info['pass'];
+    $user = array(
+      'user' => $info['startid']+$i,
+      'site' => '1',
+      'username' => $info['username'].$i,
+      'pass' => hash('sha256',$pass),
+      'usericpcid' => '',
+      'enabled' => 't',
+      'multilogin' => isset($info['multilogin']) ? ($info['multilogin'] ? 't' : 'f') : 't',
+      'userfull' => $info['userfull'].$i,
+      'userdesc' => '',
+      'type' => $group,
+      'permitip' => '',
+      'contest' => $conf['contest']['boca-contest']
+    );
+    if(!DBNewUser($user))
+      error('failed to insert user from group '.$group);
+    else
+      print implode(':',array($group,$user['username'],$pass))."\n";
+  }
+}
+
+last:;
+print "All done.\n"
+?>

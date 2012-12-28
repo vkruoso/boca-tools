@@ -1,0 +1,114 @@
+\documentclass[12pt,oneside]{article} % Uma Coluna e lingua portuguesa
+%\usepackage[T1]{fontenc}        % Permite digitar os acentos de forma normal
+\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
+\usepackage[portuges,brazil]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage[dvips]{graphicx}    % Permite Gráficos
+%\usepackage{times}    % Fonte Times
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{nomencl}    % glossario
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[compact]{titlesec}
+
+%=======================================================================
+
+% Hifenização das palavras desconhecidas pelo LaTeX
+%\hyphenation{}
+\paperheight    297mm
+\paperwidth     210mm
+\voffset         -15mm
+\headheight      15pt %% tamanho de letra
+\headsep         5mm  %% para o início do texto
+\oddsidemargin  -3.0mm
+\evensidemargin -3.0mm
+\textwidth      167.0mm
+\topmargin      005.0mm
+\textheight     240.0mm
+\footskip       10.0mm
+
+
+
+\title{TITLE}
+
+\author{Maratona de Programação}
+\title{TITLE}
+\date{DATE}
+\usepackage{indentfirst}
+\usepackage{subfig}
+
+\parindent=0pt
+\setlength{\parskip}{7pt plus 1pt minus 2pt}
+\titlespacing{\section}{0pt}{*0}{*0}
+\titlespacing{\subsection}{0pt}{*0}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+
+\begin{document}
+
+\begin{center}
+\textbf{\Huge TITLE} \\
+\vspace{0.2cm}
+\textit{DATE} \\
+\vspace{1.0cm}
+\textbf{Sevidor BOCA:} \\
+\texttt{\large BOCAURL} \\
+\vspace{1.0cm}
+\begin{figure}[h!]
+	\centering
+ \includegraphics[scale=0.5]{capa.png}
+\end{figure}
+\vspace{1.0cm}
+\textbf{Organizadores:}\\
+{\small STAFF} \\
+\vspace{1.0cm}
+\vspace{1.0cm}
+\textbf{Lembretes:} \\
+\end{center}
+{\scriptsize
+\begin{itemize}
+ \item É permitido consultar livros, anotações ou qualquer outro material
+        impresso durante a prova.
+
+ \item A correção é automatizada, portanto, siga atentamente as exigências
+        da tarefa quanto ao formato da entrada e saída de seu programa.
+        Deve-se considerar entradas e saídas padrão.
+
+ \item Procure resolver o problema de maneira eficiente. Se o tempo superar
+        o limite pré-definido, a solução não é aceita.  As soluções são
+        testadas com outras entradas além das apresentadas como exemplo dos
+        problemas.
+
+ \item Teste seu programa antes de submetê-lo. A cada problema detectado
+        (erro de compilação, erro em tempo de execução, solução incorreta,
+        formatação imprecisa, tempo excedido $\dots$), há penalização de
+        $20$ minutos. O tempo é critério de desempate entre duas ou mais
+        equipes com a mesma quantidade de problemas resolvidos.
+
+ \item Utilize o \emph{clarification} para dúvidas da prova. Os juízes podem
+        opcionalmente atendê-lo com respostas acessíveis a todos.
+\end{itemize}
+}
+
+\clearpage
+
+\pagestyle{fancy}
+\renewcommand{\footrulewidth}{0.7pt}
+\renewcommand{\headrulewidth}{0.7pt}
+\lhead{TITLE}
+%\chead{Maratonas de Programação}
+\rhead{DATE}
+\cfoot{\thepage}
+
+
+
+\newpage
+
+\newpage
+
+PROBLEMS
+
+\end{document}

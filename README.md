@@ -1,11 +1,18 @@
 Easily create and manage BOCA contests with boca-tools
 ======================================================
 
-This is a set of tools to easily create and manage BOCA contests. BOCA is a web-based programming contest system. The problem we are solving here is the tedious proccess of creating problems zip files and uploading them to the server. This can be a very tedious and time consuming task, even with the build problem interface in the BOCA system.
+This is a set of tools to easily create and manage [BOCA](http://www.ime.usp.br/~cassio/boca/) contests. BOCA is a web-based programming contest system. The problem we are solving here is the tedious proccess of creating problems zip files and uploading them to the server. This can be a very tedious and time consuming task, even with the build problem interface in the BOCA system.
 
-We provide a way of automate this task, as well as a few others on the way.
+We provide a way of automate this task and a few others.
 
-**NOTE: This script is compatible only with BOCA v1.5.1.**
+**NOTE: This script has been testes only with BOCA v1.5.1. It may work with any v1.5.x version.**
+
+Features
+--------
+
+  - Create latex files to generate a contest PDF the way you like.
+  - Generate problems zip files and upload them to the BOCA server.
+  - Create some basic users (judges, staff and score).
 
 First step
 ----------
@@ -36,7 +43,7 @@ The in and out files are the problem input and output data, respectively. The te
 How to create new contests?
 ---------------------------
 
-After you have all your problems in the system, you can create a new contests by creating a new folder inside the contests folder. Inside that folder create a `.conf` file with the same name. So if you create the `sample-contest` you will end up with this structure:
+After you have all your problems in the system, you can create a new contest by creating a new folder inside the contests folder. Inside that folder create a `.conf` file with the same name. So if you create the `sample-contest` you will end up with this structure:
 
     /contests
       /sample-contest
@@ -44,9 +51,4 @@ After you have all your problems in the system, you can create a new contests by
         
 The configuration file must specify the contest informations. They include basic information to be printed in the contest first page, information about the problems, it's colors and possible timelimit modifications. Refer to the `contests/sample-contest/sample-contest.conf` file to check all available options.
 
-After creating the configuration file, execute `./contests/create-contest sample-contest` to create the contest files.
-
-The script will ask for you what you want to do, in this order:
-  - Create latex files (will create all necessary latex files to create a nice looking PDF of the contest).
-  - Generate problems zip files and upload them to the BOCA server.
-  - Create some basic users (judges, staff and score).
+After creating the configuration file, execute `./contests/create-contest sample-contest` to create the contest files. The script will ask for you what you want to do.

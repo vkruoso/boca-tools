@@ -204,7 +204,7 @@ foreach($problems as $letter=>$problem){
 
   // description file
   $keys = array('basename','fullname','descfile');
-  $str = ''; foreach($keys as $key) if(isset($problem[$key])) $str .= $key."=".$problem[$key]."\n";
+  $str = ''; foreach($keys as $key) if(isset($problem[$key])) $str .= $key."=\"".$problem[$key]."\"\n";
   $zip->addFromString('description/problem.info',$str);
 
   // the pdf

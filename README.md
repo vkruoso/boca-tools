@@ -1,11 +1,11 @@
-Easily create and manage BOCA contests with boca-tools
-======================================================
+boca-tools
+==========
 
 This is a set of tools to easily create and manage [BOCA](http://www.ime.usp.br/~cassio/boca/) contests. BOCA is a web-based programming contest system. The problem we are solving here is the tedious proccess of creating problems zip files and uploading them to the server. This can be a very tedious and time consuming task, even with the build problem interface in the BOCA system.
 
 We provide a way of automate this task and a few others.
 
-**NOTE: This script has been testes only with BOCA v1.5.1. It may work with any v1.5.x version.**
+**NOTE: This script has been tested only with BOCA v1.5.1. It may work with any v1.5.x version.**
 
 Features
 --------

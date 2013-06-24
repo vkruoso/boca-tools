@@ -1,0 +1,97 @@
+Manao é responsável por gerenciar os equipamentos computacionais de sua
+universidade. Um certo dia, Manao recebeu a notícia de que a universidade comprou um
+novo equipamento, e de que ele ficará responsável por sua manutenção.
+
+O equipamento comprado consiste em um dispositivo que recebe como entrada duas
+placas contendo sequências de \textit{bits} de tamanho $M$ cada e imprime como saída uma outra
+placa contendo uma sequência de tamanho $M$. O $i-$ésimo \textit{bit} da sequência de saída é igual a
+um \textbf{e} (\textit{AND}), um \textbf{ou} (\textit{OR}) ou um
+\textbf{ou-exclusivo} (\textit{XOR}) dos $i-$ésimos \textit{bits} das sequências
+de entrada. A operação realizada em cada \textit{bit} pode ser distinta.
+
+Por exemplo, suponha que um dispositivo recebe como entrada placas com sequências de tamanho $M = 4$
+e que o dispositivo corresponde, nesta ordem, às operações \textit{(AND, OR, AND, XOR)}. Se
+alimentado com placas com as sequências $(1,0,1,1)$ e $(0,1,1,1)$, o dispositivo
+produzirá como saída uma placa com a sequência $(0,1,1,0)$.
+
+Manao sabe o valor de $M$, mas não sabe a configuração do dispositivo comprado, isto é,
+quais operações são realizadas em cada posição das entradas. Manao tem a sua
+disposição $N$ placas contendo sequências de $M$ \textit{bits} cada. Quando o
+dispositivo chegar, Manao quer descobrir exatamente qual operação o dispositivo
+realiza em cada posição.
+
+Para tal, Manao pode escolher qualquer par de placas distintas das $N$ placas
+disponíveis, usá-las como entrada para o
+dispositivo e analisar sua saída. Manao pode fazer isto quantas vezes forem
+necessárias, com quantos pares de placas forem necessários.
+Sua tarefa é ajudar Manao e informar se o conjunto de $N$ placas que Manao
+possui é suficiente para determinar exatamente a configuração do dispositivo,
+independente da configuração do dispositivo que chegar.
+
+\subsection*{Entrada}
+
+A entrada consiste em um ou mais casos de teste. Cada caso começa com uma linha
+contendo $N$ $(1 \leq N \leq 50)$ e $M$ $(1 \leq M \leq 50)$. As próximas $N$
+linhas descrevem as placas que Manao tem. Cada placa é descrita por uma linha
+contendo $M$ dígitos. É garantido que todos os digitos são iguais a $0$ ou $1$.
+
+O último caso de teste é seguido por uma linha contendo dois zeros.
+
+\subsection*{Saída}
+
+Para cada caso de teste, imprima \textit{YES} se as placas de Manao são
+suficientes para determinar quais são as operações realizadas pelo dispositivo, e imprima \textit{NO} caso contrário.
+
+\newpage
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\begin{minipage}[t]{3in}
+\textbf{Exemplo de Entrada}
+\begin{verbatim}
+3 3
+010
+011
+000
+4 1
+1
+0
+1
+0
+1 5
+11111
+4 7
+0110011
+0101001
+1111010
+1010010
+5 9
+101001011
+011011010
+010110010
+111010100
+111111111
+0 0
+\end{verbatim}
+\vspace{1mm}
+\end{minipage}
+&
+
+\begin{minipage}[t]{3in}
+\textbf{Exemplo de Saída}
+\begin{verbatim}
+NO
+YES
+NO
+NO
+YES
+\end{verbatim}
+\vspace{1mm}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage

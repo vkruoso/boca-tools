@@ -1,0 +1,51 @@
+The SUM problem can be formulated as follows: given four lists A, B, C, D of
+integer values, compute how many quadruplet $(a,b,c,d) \in A \times B \times C \times D$
+are such that $a+b+c+d=0$. In the following, we assume that all lists have
+the same size n.
+
+\subsection*{Input}
+
+The input contains several test cases. For each test case the first line
+of the input contains the size of the lists $N$ (this value
+can be as large as 4000). We then have $N$ lines containing four integer values
+(with absolute value as large as $2^{28}$) that belong respectively to A, B, C and D.
+
+
+\subsection*{Output}
+
+For each test case your program has to write on line with the number
+of quadruplets whose sum is zero. The last test case is followed by a
+line containing one zero.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\begin{minipage}[t]{3in}
+\textbf{Exemplo de entrada}
+\begin{verbatim}
+6
+-45 22 42 -16
+-41 -27 56 30
+-36 53 -37 77
+-36 30 -75 -46
+26 -38 -10 62
+-32 -54 -6 45
+0
+\end{verbatim}
+\vspace{1mm}
+\end{minipage}
+&
+
+\begin{minipage}[t]{3in}
+\textbf{Exemplo de saída}
+\begin{verbatim}
+5
+\end{verbatim}
+\vspace{1mm}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage

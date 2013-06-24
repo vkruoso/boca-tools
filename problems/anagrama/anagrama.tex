@@ -1,34 +1,36 @@
-Uma string $x$ é um anagrama da string $y$ se podemos reordenar as letras da string
-$x$ e formar exatamente a string $y$. Por exemplo, a string ``DOG'' é um anagrama de
-``GOD'', assim como ``BABA'' é anagrama de ``AABB''. A string ``ABBAC'' não é um
-anagrama de ``CAABA''.
+Uma string $x$ é um anagrama da string $y$ se podemos reordenar as letras da
+string $x$ e formar exatamente a string $y$. Por exemplo, a string ``DOG'' é
+um anagrama de ``GOD'', assim como ``BABA'' é anagrama de ``AABB''. A string
+``ABBAC'' não é um anagrama de ``CAABA''.
 
-São dadas duas strings $s$ e $t$, que têm o mesmo tamanho e contém apenas letras
-maiúsculas do alfabeto inglês (A,B,C, ..., X, Y, Z). Através da aplicação
-sucessiva
-de operações, você deve transformar a string $s$ em algum anagrama da string $t$.
+São dadas duas strings $s$ e $t$, que têm o mesmo tamanho e contém apenas
+letras maiúsculas do alfabeto inglês (A,B,C, ..., X, Y, Z). Através da
+aplicação sucessiva de operações, você deve transformar a string $s$ em
+algum anagrama da string $t$.
 
-Uma operação sobre uma string consiste em trocar qualquer (mas apenas uma) letra da
-string por qualquer outra letra do alfabeto inglês (A, ..., Z).
+Uma operação sobre uma string consiste em trocar qualquer (mas apenas uma)
+letra da string por qualquer outra letra do alfabeto inglês (A, ..., Z).
 
-Transforme a string $s$ em um anagrama da string $t$ com o menor número possível de
-operações. Se você consegue obter vários anagramas de $t$ com o mínimo de
-operações, obtenha o lexicograficamente menor. A ordem lexicográfica de strings
-é a conhecida ordem ``de dicionário'', ou ``alfabética''.
+Transforme a string $s$ em um anagrama da string $t$ com o menor número
+possível de operações. Se você consegue obter vários anagramas de $t$ com o
+mínimo de operações, obtenha o lexicograficamente menor. A ordem
+lexicográfica de strings é a conhecida ordem ``de dicionário'', ou
+``alfabética''.
 
 \subsection*{Input}
 
-Cada caso de teste consiste em duas linhas. A primeira linha contém a string $s$,
-e a segunda contém a string $t$. As strings têm o mesmo tamanho (de
-$1$ a $10^5$ caracteres) e consiste apenas de letras maiúsculas (A-Z).
-O último caso de teste é seguido por duas linhas contendo $\#$.
+Cada caso de teste consiste em duas linhas. A primeira linha contém a string
+$s$, e a segunda contém a string $t$. As strings têm o mesmo tamanho (de $1$
+a $10^5$ caracteres) e consiste apenas de letras maiúsculas (A-Z). O último
+caso de teste é seguido por duas linhas contendo $\#$.
 
 \subsection*{Output}
 
-Para cada caso de teste, imprima duas linhas. Na primeira, imprima $z$ - o número
-mínino de operações a serem aplicadas sobre $s$ para se obter um anagrama de $t$. Na
-segunda linha, imprima o anagrama obtido com $z$ operações. Lembre-se que o
-anamagra obtivo deve ser o menor possível, lexicograficamente.
+Para cada caso de teste, imprima duas linhas. Na primeira, imprima $z$ - o
+número mínino de operações a serem aplicadas sobre $s$ para se obter um
+anagrama de $t$. Na segunda linha, imprima o anagrama obtido com $z$
+operações. Lembre-se que o anamagra obtivo deve ser o menor possível,
+lexicograficamente.
 
 \begin{table}[!h]
 \centering

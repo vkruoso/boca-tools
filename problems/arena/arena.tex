@@ -1,0 +1,64 @@
+You are a huge fan of an online programming contest called SRM (Special Round
+Match). To participate in an SRM contest, you must first download an
+applet called Arena, log in to the Arena by entering your username and password,
+and start competing.
+
+Recently, to avoid hackers' attacks on the Arena, SRM imposes a new rule for the
+users' passwords. From now on, the first $K$ characters of each user's password
+must match its last $K$ characters. In this way, if someone enters a password with
+different first and last $K$ characters repeatedly, it can be considered an attack
+from hackers.
+
+However, you love your old password and do not want to change many characters
+from it. You are given a string $S$ representing your old password, and
+an integer $K$. Find the minimum number of characters of $S$ that must be
+changed so that the substring containing the first $K$ characters is
+equal to the substring containing the last $K$ characters.
+
+\subsection*{Input}
+
+Each test case is described by a line containing an integer $K$ and a string $S$
+($1 \leq |S| \leq 50$, $1 \leq K \leq |S|$). $S$ will contain only lowercase
+English letters ($a$ - $z$).
+
+The last test case is followed by a line containing the number zero.
+
+\subsection*{Output}
+
+For each test case, print the minimum number of characters of $S$ that must be
+changed.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\begin{minipage}[t]{3in}
+\textbf{Sample Input}
+\begin{verbatim}
+5 topcoderopen
+4 puyopuyo
+3 loool
+5 arena
+7 amavckdkz
+0
+\end{verbatim}
+\vspace{1mm}
+\end{minipage}
+&
+
+\begin{minipage}[t]{3in}
+\textbf{Sample Output}
+\begin{verbatim}
+3
+0
+1
+0
+5
+\end{verbatim}
+\vspace{1mm}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{table}
+
+\newpage

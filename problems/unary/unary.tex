@@ -1,0 +1,91 @@
+Unary is a minimalistic Brainfuck dialect in which programs are written using only one token.
+
+Brainfuck programs use 8 commands: "+", "-", "[", "]", "<", ">", "." and ","
+(their meaning is not important for the purposes of this problem). Unary
+programs are created from Brainfuck programs using the following algorithm.
+First, replace each command with a corresponding binary code, using the
+following conversion table:
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{ll}
+\begin{minipage}[t]{3in}
+\begin{itemize}
+    \item '$<$' $\rightarrow$ 1000
+    \item '$>$' $\rightarrow$ 1001
+    \item '$+$' $\rightarrow$ 1010
+    \item '$-$' $\rightarrow$ 1011
+\end{itemize}
+\vspace{1mm}
+\end{minipage}
+&
+\begin{minipage}[t]{3in}
+\begin{itemize}
+   \item '$.$' $\rightarrow$ 1100
+    \item '$,$' $\rightarrow$ 1101
+    \item '$[$' $\rightarrow$ 1110
+    \item '$]$' $\rightarrow$ 1111
+\end{itemize}
+\vspace{1mm}
+\end{minipage} \\
+\end{tabular}
+\end{table}
+
+Next, concatenate the resulting binary codes into one binary number in the same
+order as in the program. Finally, write this number using unary numeral system
+- this is the Unary program equivalent to the original Brainfuck one.
+
+You are given a Brainfuck program. Your task is to calculate the size of the
+equivalent Unary program, and print it modulo $1000003$ $(10^6 + 3)$.
+
+\subsection*{Input}
+
+The first line of the input contains the integer $T$ ($1 \leq T \leq 100$),
+the number of test cases.
+Each of the following T lines contains a test case, a program in brainfuck.
+Each line will contain between 1 and 100 characters, inclusive. There are no
+invalid characters.
+
+\subsection*{Output}
+
+Output, for each test case, the size of the equivalent Unary program modulo
+$1000003$ $(10^6 + 3)$.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\begin{minipage}[t]{3in}
+\textbf{Sample Input}
+\begin{verbatim}
+2
+,.
+++++[>,.<-]
+\end{verbatim}
+\vspace{1mm}
+\end{minipage}
+&
+
+\begin{minipage}[t]{3in}
+\textbf{Sample Output}
+\begin{verbatim}
+220
+61425
+\end{verbatim}
+\vspace{1mm}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Note}
+
+To write a number $n$ in unary numeral system, one simply has to write 1 $n$
+times. For example, 5 written in unary system will be 11111.
+
+In the first example replacing Brainfuck commands with binary code will give us
+1101 1100. After we concatenate the codes, we'll get 11011100 in binary system,
+     or 220 in decimal. That's exactly the number of tokens in the equivalent
+     Unary program.
+
+\newpage

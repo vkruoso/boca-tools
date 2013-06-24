@@ -1,0 +1,65 @@
+HQ9+ is a joke programming language which has only four one-character instructions:
+
+\begin{itemize}
+    \item "H" prints "Hello, World!",
+
+    \item "Q" prints the source code of the program itself,
+
+    \item "9" prints the lyrics of "99 Bottles of Beer" song,
+
+    \item "+" increments the value stored in the internal accumulator.
+\end{itemize}
+
+Instructions "H" and "Q" are case-sensitive and must be uppercase. The
+characters of the program which are not instructions are ignored.
+
+You are given a program written in HQ9+. You have to figure out whether
+executing this program will produce any output.
+
+\subsection*{Input}
+
+The first line of the input contains the integer $T$ ($1 \leq T \leq 100$),
+the number of test cases.
+Each of the following T lines contains a test case, a program in HQ9+.
+Each line will contain between 1 and 100 characters, inclusive. ASCII-code of
+each character will be between 33 (exclamation mark) and 126 (tilde),
+     inclusive.
+
+\subsection*{Output}
+
+For each test case, output "YES", if executing the program will produce any
+output, and "NO" otherwise.
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\begin{minipage}[t]{3in}
+\textbf{Sample Input}
+\begin{verbatim}
+2
+Hi!
+Codeforces
+\end{verbatim}
+\vspace{1mm}
+\end{minipage}
+&
+
+\begin{minipage}[t]{3in}
+\textbf{Sample Output}
+\begin{verbatim}
+YES
+NO
+\end{verbatim}
+\vspace{1mm}
+\end{minipage} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{Note}
+In the first case the program contains only one instruction - "H", which prints "Hello, World!".
+
+In the second case none of the program characters are language instructions.
+
+\newpage
